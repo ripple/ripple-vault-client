@@ -1,2 +1,2 @@
-ripple = null;
-module.exports = require('./vaultclient');
+//ripple = null;
+ window.rippleVaultClient = window.rippleVaultClient || require('./vaultclient');
