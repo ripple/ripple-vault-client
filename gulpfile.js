@@ -3,6 +3,8 @@ var browserify = require('gulp-browserify');
 var uglify     = require('gulp-uglify');
 var rename     = require('gulp-rename');
 var del        = require('del');
+var bump       = require('gulp-bump');
+var pkg        = require('./package.json');
 
 var DEST = './build';
 
@@ -24,6 +26,37 @@ gulp.task('build', function() {
     .pipe(rename({extname:'.min.js'}))
     .pipe(gulp.dest(DEST));
 });
+
+// Bower Build Steps
+gulp.task('bower-build', function(callback) {
+  gulp.src('src/web.js')
+    .pipe(browserify({
+      insertGlobals : true
+    }))
+    .pipe(rename('ripple-vault-client.js'))
+    .pipe(gulp.dest('./dist'))
+    .pipe(uglify())
+    .pipe(rename('ripple-vault-client-min.js'))
+    .pipe(gulp.dest('./dist'));
+});
+
+gulp.task('bower-build-debug', function(callback) {
+  gulp.src('src/web.js')
+    .pipe(browserify({
+      insertGlobals : true,
+      debug : true
+    }))
+    .pipe(rename('vault-client-debug.js'))
+    .pipe(gulp.dest('./dist'));
+});
+
+gulp.task('bower-version', function() {
+  gulp.src('./dist/bower.json')
+  .pipe(bump({ version: pkg.version }))
+  .pipe(gulp.dest('./dist/'));
+});
+
+gulp.task('bower', ['bower-build', 'bower-version']);
 
 // Watch files For Changes
 gulp.task('delta', function() {
