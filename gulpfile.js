@@ -1,5 +1,6 @@
 var gulp       = require('gulp');
-var browserify = require('gulp-browserify');
+var gulpwebpack= require('gulp-webpack');
+var webpack    = require('webpack');
 var uglify     = require('gulp-uglify');
 var rename     = require('gulp-rename');
 var del        = require('del');
@@ -13,25 +14,23 @@ gulp.task('clean', function(cb) {
   del(['build'], cb);
 });
 
-//build the web module
-gulp.task('build', function() {
-  gulp.src('src/web.js')
-    .pipe(browserify({
-      insertGlobals : true,
-      //debug : !gulp.env.production
-    }))
-    .pipe(rename('vault-client.js'))
-    .pipe(gulp.dest(DEST))
-    .pipe(uglify())
-    .pipe(rename({extname:'.min.js'}))
-    .pipe(gulp.dest(DEST));
+gulp.task('build', function(callback) {
+  webpack({
+    cache: true,
+    entry: './src/index.js',
+    output: {
+      library: 'rippleVaultClient',
+      path: './build/',
+      filename: [ 'ripple-vault-client-', '.js' ].join(pkg.version)
+    },
+  }, callback);
 });
 
 // Bower Build Steps
 gulp.task('bower-build', function(callback) {
-  gulp.src('src/web.js')
-    .pipe(browserify({
-      insertGlobals : true
+  gulp.src('src/index.js')
+    .pipe(gulpwebpack({
+      cache: true
     }))
     .pipe(rename('ripple-vault-client.js'))
     .pipe(gulp.dest('./dist'))
@@ -41,10 +40,10 @@ gulp.task('bower-build', function(callback) {
 });
 
 gulp.task('bower-build-debug', function(callback) {
-  gulp.src('src/web.js')
-    .pipe(browserify({
-      insertGlobals : true,
-      debug : true
+  gulp.src('src/index.js')
+    .pipe(gulpwebpack({
+      cache: true,
+      debug: true
     }))
     .pipe(rename('vault-client-debug.js'))
     .pipe(gulp.dest('./dist'));
