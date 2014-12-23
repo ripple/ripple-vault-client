@@ -1,8 +1,11 @@
 var gulp       = require('gulp');
-var browserify = require('gulp-browserify');
+var gulpwebpack= require('gulp-webpack');
+var webpack    = require('webpack');
 var uglify     = require('gulp-uglify');
 var rename     = require('gulp-rename');
 var del        = require('del');
+var bump       = require('gulp-bump');
+var pkg        = require('./package.json');
 
 var DEST = './build';
 
@@ -11,19 +14,48 @@ gulp.task('clean', function(cb) {
   del(['build'], cb);
 });
 
-//build the web module
-gulp.task('build', function() {
-  gulp.src('src/web.js')
-    .pipe(browserify({
-      insertGlobals : true,
-      //debug : !gulp.env.production
-    }))
-    .pipe(rename('vault-client.js'))
-    .pipe(gulp.dest(DEST))
-    .pipe(uglify())
-    .pipe(rename({extname:'.min.js'}))
-    .pipe(gulp.dest(DEST));
+gulp.task('build', function(callback) {
+  webpack({
+    cache: true,
+    entry: './src/index.js',
+    output: {
+      library: 'rippleVaultClient',
+      path: './build/',
+      filename: [ 'ripple-vault-client-', '.js' ].join(pkg.version)
+    },
+  }, callback);
 });
+
+// Bower Build Steps
+gulp.task('bower-build', function(callback) {
+  gulp.src('src/index.js')
+    .pipe(gulpwebpack({
+      cache: true
+    }))
+    .pipe(rename('ripple-vault-client.js'))
+    .pipe(gulp.dest('./dist'))
+    .pipe(uglify())
+    .pipe(rename('ripple-vault-client-min.js'))
+    .pipe(gulp.dest('./dist'));
+});
+
+gulp.task('bower-build-debug', function(callback) {
+  gulp.src('src/index.js')
+    .pipe(gulpwebpack({
+      cache: true,
+      debug: true
+    }))
+    .pipe(rename('vault-client-debug.js'))
+    .pipe(gulp.dest('./dist'));
+});
+
+gulp.task('bower-version', function() {
+  gulp.src('./dist/bower.json')
+  .pipe(bump({ version: pkg.version }))
+  .pipe(gulp.dest('./dist/'));
+});
+
+gulp.task('bower', ['bower-build', 'bower-version']);
 
 // Watch files For Changes
 gulp.task('delta', function() {
