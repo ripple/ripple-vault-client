@@ -4,7 +4,7 @@ gulp bower
 cd dist
 version=$(cat bower.json | grep -Eo '([0-9]\.?)+(-rc[0-9])?')
 echo "version: $version"
-git add ripple-vault-client.js ripple-vault-client-min.js bower.json
+git add ripple-vault-client.js ripple-vault-client-debug.js ripple-vault-client-min.js bower.json
 git commit -m "[TASK] add v$version"
 git tag "v$version"
 git push origin master

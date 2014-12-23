@@ -30,7 +30,10 @@ gulp.task('build', function(callback) {
 gulp.task('bower-build', function(callback) {
   gulp.src('src/index.js')
     .pipe(gulpwebpack({
-      cache: true
+      cache: true,
+      output: {
+        library: 'rippleVaultClient'
+      }
     }))
     .pipe(rename('ripple-vault-client.js'))
     .pipe(gulp.dest('./dist'))
@@ -43,9 +46,12 @@ gulp.task('bower-build-debug', function(callback) {
   gulp.src('src/index.js')
     .pipe(gulpwebpack({
       cache: true,
-      debug: true
+      debug: true,
+      output: {
+        library: 'rippleVaultClient'
+      }
     }))
-    .pipe(rename('vault-client-debug.js'))
+    .pipe(rename('ripple-vault-client-debug.js'))
     .pipe(gulp.dest('./dist'));
 });
 
@@ -55,7 +61,7 @@ gulp.task('bower-version', function() {
   .pipe(gulp.dest('./dist/'));
 });
 
-gulp.task('bower', ['bower-build', 'bower-version']);
+gulp.task('bower', ['bower-build', 'bower-build-debug', 'bower-version']);
 
 // Watch files For Changes
 gulp.task('delta', function() {
