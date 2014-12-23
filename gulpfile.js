@@ -51,7 +51,7 @@ gulp.task('bower-build-debug', function(callback) {
         library: 'rippleVaultClient'
       }
     }))
-    .pipe(rename('vault-client-debug.js'))
+    .pipe(rename('ripple-vault-client-debug.js'))
     .pipe(gulp.dest('./dist'));
 });
 
@@ -61,7 +61,7 @@ gulp.task('bower-version', function() {
   .pipe(gulp.dest('./dist/'));
 });
 
-gulp.task('bower', ['bower-build', 'bower-version']);
+gulp.task('bower', ['bower-build', 'bower-build-debug', 'bower-version']);
 
 // Watch files For Changes
 gulp.task('delta', function() {
