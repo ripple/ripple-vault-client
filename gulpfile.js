@@ -30,7 +30,10 @@ gulp.task('build', function(callback) {
 gulp.task('bower-build', function(callback) {
   gulp.src('src/index.js')
     .pipe(gulpwebpack({
-      cache: true
+      cache: true,
+      output: {
+        library: 'rippleVaultClient'
+      }
     }))
     .pipe(rename('ripple-vault-client.js'))
     .pipe(gulp.dest('./dist'))
@@ -43,7 +46,10 @@ gulp.task('bower-build-debug', function(callback) {
   gulp.src('src/index.js')
     .pipe(gulpwebpack({
       cache: true,
-      debug: true
+      debug: true,
+      output: {
+        library: 'rippleVaultClient'
+      }
     }))
     .pipe(rename('vault-client-debug.js'))
     .pipe(gulp.dest('./dist'));
