@@ -23,6 +23,7 @@ gulp.task('build', function(callback) {
       path: './build/',
       filename: [ 'ripple-vault-client-', '.js' ].join(pkg.version)
     },
+    externals: {'ripple-lib': 'ripple'}
   }, callback);
 });
 
@@ -33,7 +34,8 @@ gulp.task('bower-build', function(callback) {
       cache: true,
       output: {
         library: 'rippleVaultClient'
-      }
+      },
+      externals: {'ripple-lib': 'ripple'}
     }))
     .pipe(rename('ripple-vault-client.js'))
     .pipe(gulp.dest('./dist'))
@@ -49,7 +51,8 @@ gulp.task('bower-build-debug', function(callback) {
       debug: true,
       output: {
         library: 'rippleVaultClient'
-      }
+      },
+      externals: {'ripple-lib': 'ripple'}
     }))
     .pipe(rename('ripple-vault-client-debug.js'))
     .pipe(gulp.dest('./dist'));
