@@ -2,7 +2,7 @@
   "name": "ripple-vault-client",
   "version": "0.4.7",
   "description": "",
-  "main": "server.js",
+  "main": "src/index.js",
   "dependencies": {
     "ripple-lib": "~0.10.0",
     "superagent": "^0.21.0",
@@ -22,8 +22,7 @@
   },
   "scripts": {
     "test": "./node_modules/mocha/bin/_mocha --reporter spec test/*.js",
-    "start": "",
-    "postinstall": "node_modules/.bin/webpack src/web.js > build/vault-client.js"
+    "start": ""
   },
   "repository": {
     "type": "git",
