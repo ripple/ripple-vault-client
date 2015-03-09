@@ -52,6 +52,9 @@ var identityFields = [
   'address',
   'birthday',
   'ssn',
+  'passport',
+  'identity_card',
+  'drivers_license',
 ];
 
 var entityTypes = [
