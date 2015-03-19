@@ -207,7 +207,8 @@ VaultClient.prototype.login = function(username, password, device_id, callback) 
         verified  : authInfo.emailVerified, //DEPRECIATE
         emailVerified    : authInfo.emailVerified,
         profileVerified  : authInfo.profile_verified,
-        identityVerified : authInfo.identity_verified
+        identityVerified : authInfo.identity_verified,
+	key : keys.crypt
       });
     });
   };
