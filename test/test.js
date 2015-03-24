@@ -200,6 +200,11 @@ if (!online) {
       'Content-Type': 'application/json'
     });   
 
+  mockBlob.get('/v1/authinfo?domain=' + exampleData.domain + '&username=' + encodeURIComponent(exampleData.email))
+    .reply(200, JSON.stringify(authInfoRes.body), {
+      'Content-Type': 'application/json'
+    });
+    
   mockBlob.get('/v1/authinfo?domain=' + exampleData.domain + '&username=' + exampleData.new_username.toLowerCase())
     .reply(200, JSON.stringify(authInfoNewUsernameRes.body), {
       'Content-Type': 'application/json'
@@ -281,6 +286,18 @@ describe('AuthInfo', function() {
     AuthInfo.get(exampleData.domain, exampleData.username, function(err, resp) {
       assert.ifError(err);
       Object.keys(authInfoRes.body).forEach(function(prop) {
+        assert(resp.hasOwnProperty(prop));
+      });
+      done();
+    });
+  });
+});
+
+describe('AuthInfoWithEmail', function() {  
+  it('should get auth info', function(done) {
+    AuthInfo.get(exampleData.domain, exampleData.email, function(err, resp) {
+      assert.ifError(err);
+  Object.keys(authInfoRes.body).forEach(function(prop) {
         assert(resp.hasOwnProperty(prop));
       });
       done();
