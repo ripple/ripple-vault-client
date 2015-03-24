@@ -45,14 +45,16 @@ for (var name in BlobObj.ops) {
 //Identity fields
 var identityRoot   = 'identityVault';
 var identityFields = [
-  'name',
   'entityType',
   'email',
   'phone',
+  'name',
   'address',
-  'nationalID',
   'birthday',
-  'birthplace'
+  'ssn',
+  'passport',
+  'identity_card',
+  'drivers_license',
 ];
 
 var entityTypes = [
@@ -62,27 +64,12 @@ var entityTypes = [
 ];
 
 var addressFields = [
-  'contact',
   'line1',
   'line2',
   'city',
-  'region',  //state/province/region
-  'postalCode',
+  'state',
+  'postcode',
   'country'
-];
-
-var nationalIDFields = [
-  'number',
-  'type',
-  'country',
-];
-
-var idTypeFields = [
-  'ssn',
-  'taxID',
-  'passport',
-  'driversLicense',
-  'other'
 ];
 
 /**
@@ -778,24 +765,6 @@ Identity.prototype.set = function (pointer, key, value, fn) {
       }
     }
   
-  //validate nationalID fields  
-  } else if (pointer === 'nationalID') {
-    if (typeof value !== 'object') {
-      return fn(new Error("nationalID must be an object"));   
-    }
-    
-    for (var idField in value) {
-      if (nationalIDFields.indexOf(idField) === -1) {
-        return fn(new Error("invalid nationalID field"));   
-      }
-      
-      if (idField === 'type') {
-        if (idTypeFields.indexOf(value[idField]) === -1) {
-          return fn(new Error("invalid nationalID type"));   
-        }      
-      }
-    }   
-    
   //validate entity type   
   } else if (pointer === 'entityType') {
     if (entityTypes.indexOf(value) === -1) {

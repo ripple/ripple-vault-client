@@ -369,7 +369,7 @@ VaultClient.prototype.loginAndUnlock = function(username, password, device_id, f
 
   function deriveUnlockKey (authInfo, password, blob, callback) {
     self._deriveUnlockKey(authInfo, password, null, function(err, authInfo, keys){
-      callback(err, keys.unlock, authInfo, blob);
+      callback(err, keys && keys.unlock, authInfo, blob);
     });
   };
   
