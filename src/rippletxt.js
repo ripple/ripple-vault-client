@@ -38,7 +38,7 @@ RippleTxt.get = function(domain, fn) {
     console.log(url);
     
     request.get(url, function(err, resp) {
-      if (err || !resp.text) {
+      if (err || resp.statusCode != 200 || !resp.text) {
         return nextUrl(++i);
       }
 
