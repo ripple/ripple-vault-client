@@ -9,6 +9,7 @@ var extend      = require("extend");
 var parser      = require("url");
 var Crypt       = { };
 
+var SJCL_PARANOIA_256_BITS = 6;
 var cryptConfig = {
   cipher : 'aes',
   mode   : 'ccm',
@@ -61,11 +62,7 @@ function keyHash(key, token) {
  * @param {number} nWords
  */
 function randomWords (nWords) {
-  for (var i = 0; i < 8; i++) {
-    sjcl.random.addEntropy(Math.random(), 32, "Math.random()");
-  }  
-  
-  return sjcl.random.randomWords(nWords);  
+  return sjcl.random.randomWords(nWords, SJCL_PARANOIA_256_BITS);
 }
 
 /****** exposed functions ******/
@@ -115,7 +112,7 @@ Crypt.derive = function(opts, purpose, username, secret, fn) {
   var iRandom;
 
   for (;;) {
-    iRandom = sjcl.bn.random(iModulus, 0);
+    iRandom = sjcl.bn.random(iModulus, SJCL_PARANOIA_256_BITS);
     if (iRandom.jacobi(iModulus) === 1) {
       break;
     }
