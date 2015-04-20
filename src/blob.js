@@ -45,29 +45,38 @@ for (var name in BlobObj.ops) {
 //Identity fields
 var identityRoot   = 'identityVault';
 var identityFields = [
-  'entityType',
   'email',
   'phone',
   'name',
   'address',
   'birthday',
+
+  'entity_type',
+  'company',
+
   'ssn',
   'passport',
   'identity_card',
   'drivers_license',
+  'personal_identification',
+  'travel_document',
+  'tax_id',
+  'voter_id',
+  'residence_permit',
+  'identity_certificate',
 ];
 
 var entityTypes = [
   'individual',
-  'organization',
-  'corporation'
+  //'organization',
+  'company'
 ];
 
 var addressFields = [
   'line1',
   'line2',
   'city',
-  'state',
+  'subdivision',
   'postcode',
   'country'
 ];
@@ -766,7 +775,7 @@ Identity.prototype.set = function (pointer, key, value, fn) {
     }
   
   //validate entity type   
-  } else if (pointer === 'entityType') {
+  } else if (pointer === 'entity_type') {
     if (entityTypes.indexOf(value) === -1) {
       return fn(new Error("invalid entity type"));   
     }     
