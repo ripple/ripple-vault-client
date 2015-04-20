@@ -1,6 +1,7 @@
-var async      = require('async');
-var superagent = require('superagent');
-var RippleTxt  = require('./rippletxt').RippleTxt;
+var querystring = require('querystring');
+var async       = require('async');
+var superagent  = require('superagent');
+var RippleTxt   = require('./rippletxt').RippleTxt;
 
 var AuthInfo = { };
 
@@ -36,7 +37,10 @@ AuthInfo.getAddress = function(domain, address, callback) {
 
       var url = Array.isArray(txt.authinfo_url) ? txt.authinfo_url[0] : txt.authinfo_url;
 
-      url += '?domain=' + domain + '&username=' + address;
+      url += '?' + querystring.stringify({
+        domain:   domain,
+        username: address,
+      });
 
       callback(null, url);
     });
@@ -79,7 +83,10 @@ AuthInfo.get = function(domain, address, callback) {
 
       var url = Array.isArray(txt.authinfo_url) ? txt.authinfo_url[0] : txt.authinfo_url;
 
-      url += '?domain=' + domain + '&username=' + address;
+      url += '?' + querystring.stringify({
+        domain:   domain,
+        username: address,
+      });
 
       callback(null, url);
     });
