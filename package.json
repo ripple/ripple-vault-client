@@ -27,7 +27,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/shekenahglory/ripple-vault-client.git"
+    "url": "git://github.com/ripple/ripple-vault-client.git"
   },
   "keywords": [
     "blob",
