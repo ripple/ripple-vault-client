@@ -62,7 +62,7 @@ RippleTxt.parse = function(txt) {
   txt = txt.replace(/\r?\n/g, '\n').split('\n');
 
   for (var i = 0, l = txt.length; i < l; i++) {
-    var line = txt[i];
+    var line = txt[i].replace(/^\s+|\s+$/g, '');
 
     if (!line.length || line[0] === '#') {
       continue;
@@ -72,7 +72,6 @@ RippleTxt.parse = function(txt) {
       currentSection = line.slice(1, line.length - 1);
       sections[currentSection] = [];
     } else {
-      line = line.replace(/^\s+|\s+$/g, '');
       if (sections[currentSection]) {
         sections[currentSection].push(line);
       }
