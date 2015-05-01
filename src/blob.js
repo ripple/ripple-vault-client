@@ -387,7 +387,7 @@ BlobObj.prototype._traverse = function(context, pointer, originalPointer, op, pa
     if (part === '-') {
       part = context.length;
     } else if (part % 1 !== 0 && part >= 0) {
-      throw new Error('Invalid pointer, array element segments must be a positive integer, zero or '-'');
+      throw new Error('Invalid pointer, array element segments must be a positive integer, zero or \'-\'');
     }
   } else if (typeof context !== 'object') {
     return null;
