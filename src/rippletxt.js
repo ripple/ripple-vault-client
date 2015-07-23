@@ -35,7 +35,6 @@ RippleTxt.get = function(domain, fn) {
     }
 
     url = url.replace('{{domain}}', domain);
-    console.log(url);
     
     request.get(url, function(err, resp) {
       if (err || !resp.text) {
