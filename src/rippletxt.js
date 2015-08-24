@@ -8,10 +8,7 @@ var RippleTxt = {
 RippleTxt.urlTemplates = [
   'https://{{domain}}/ripple.txt',
   'https://www.{{domain}}/ripple.txt',
-  'https://ripple.{{domain}}/ripple.txt',
-  'http://{{domain}}/ripple.txt',
-  'http://www.{{domain}}/ripple.txt',
-  'http://ripple.{{domain}}/ripple.txt'
+  'https://ripple.{{domain}}/ripple.txt'
 ];
 
 /**
