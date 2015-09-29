@@ -7,6 +7,7 @@ var request     = require('superagent');
 var querystring = require('querystring');
 var extend      = require("extend");
 var parser      = require("url");
+var jacobi      = require('./sjcl-custom/sjcl-jacobi.js').jacobi;
 var Crypt       = { };
 
 var SJCL_PARANOIA_256_BITS = 6;
@@ -105,7 +106,7 @@ Crypt.derive = function(opts, purpose, username, secret, fn) {
   var secretHex  = sjcl.codec.hex.fromBits(secretHash);
   var iSecret    = new sjcl.bn(String(secretHex)).mod(iModulus);
 
-  if (iSecret.jacobi(iModulus) !== 1) {
+  if (jacobi(iSecret, iModulus) !== 1) {
     iSecret = iSecret.mul(iAlpha).mod(iModulus);
   }
 
@@ -113,12 +114,12 @@ Crypt.derive = function(opts, purpose, username, secret, fn) {
 
   for (;;) {
     iRandom = sjcl.bn.random(iModulus, SJCL_PARANOIA_256_BITS);
-    if (iRandom.jacobi(iModulus) === 1) {
+    if (jacobi(iRandom, iModulus) === 1) {
       break;
     }
   }
 
-  var iBlind   = iRandom.powermodMontgomery(iPublic.mul(iExponent), iModulus);
+  var iBlind   = iRandom.powermod(iPublic.mul(iExponent), iModulus);
   var iSignreq = iSecret.mulmod(iBlind, iModulus);
   var signreq  = sjcl.codec.hex.fromBits(iSignreq.toBits());
 
